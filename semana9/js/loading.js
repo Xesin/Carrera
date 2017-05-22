@@ -36,9 +36,19 @@ Loading.prototype = {
 	
 	start: function () {
 		this.game.tween.add(this.porcentaje).to({alpha : 0}, 500, XEngine.Easing.Linear, true).onComplete.addOnce(function () {
-			var background = this.game.add.audio('background', true, -0.2);
+			var webSocket = new WebSocket("ws://carrera-videoj-xferrer.c9users.io:9898");
+			webSocket.onopen = function () {
+				console.log("connected");
+			};
+			webSocket.onerror = function (error) {
+				console.log(error);
+			};
+			webSocket.onmessage = function (e) {
+				console.log('Server: ' + e.data);
+			};
+			/*var background = this.game.add.audio('background', true, -0.2);
 			background.persist = true;
-			background.loop(true);
+			background.loop(true);*/
 			this.game.state.start('menu');
 		}, this);
 	},
